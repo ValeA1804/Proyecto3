@@ -1,10 +1,8 @@
 package InterfazGrafica.Cliente;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-
 import Proyecto.Cliente;
 import Proyecto.Cafeteria;
 import Proyecto.InventarioJuegoVenta;
@@ -13,7 +11,7 @@ import Proyecto.Torneo;
 
 public class VentanaCliente extends JPanel {
     
-	private CardLayout cardLayout;
+    private CardLayout cardLayout;
     private PanelReservas panelReservas;
     private PanelPedidos panelPedidos;
     private PanelMiCuenta panelMiCuenta;
@@ -27,6 +25,7 @@ public class VentanaCliente extends JPanel {
         cardLayout = new CardLayout();
         setLayout(cardLayout);
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setBackground(new Color(25, 35, 60));
         
         panelReservas = new PanelReservas(cliente, cafeteria);
         panelPedidos = new PanelPedidos(cliente, inventarioPrestamo, cafeteria);
@@ -64,6 +63,7 @@ public class VentanaCliente extends JPanel {
     public PanelTorneos getPanelTorneos() {
         return panelTorneos;
     }
+    
     public JButton getBtnCerrarSesion() {
         return panelMiCuenta.getBtnCerrarSesion();
     }

@@ -20,22 +20,62 @@ public class PanelPedidos extends JPanel {
         this.inventarioPrestamo = inventarioPrestamo;
         this.cafeteria = cafeteria;
         setLayout(new BorderLayout());
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setBackground(new Color(25, 35, 60));
         initComponents();
     }
     
     private void initComponents() {
-        JPanel panelSuperior = new JPanel(new FlowLayout());
+        JPanel panelPrincipal = new JPanel(new BorderLayout());
+        panelPrincipal.setBackground(new Color(25, 35, 60));
         
+        JLabel titulo = new JLabel("Gestion de Pedidos");
+        titulo.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        titulo.setHorizontalAlignment(SwingConstants.CENTER);
+        titulo.setForeground(Color.WHITE);
+        
+        JPanel panelSuperior = new JPanel(new BorderLayout());
+        panelSuperior.setBackground(new Color(25, 35, 60));
+        panelSuperior.add(titulo, BorderLayout.CENTER);
+        
+        JPanel panelBoton = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        panelBoton.setBackground(new Color(25, 35, 60));
         btnPedirPrestado = new JButton("Pedir Prestado");
+        btnPedirPrestado.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        btnPedirPrestado.setPreferredSize(new Dimension(130, 32));
+        btnPedirPrestado.setBackground(new Color(255, 160, 50));
+        btnPedirPrestado.setForeground(Color.WHITE);
+        btnPedirPrestado.setFocusPainted(false);
+        btnPedirPrestado.setBorderPainted(false);
+        btnPedirPrestado.setOpaque(true);
+        btnPedirPrestado.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnPedirPrestado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btnPedirPrestado.setBackground(new Color(255, 180, 70));
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btnPedirPrestado.setBackground(new Color(255, 160, 50));
+            }
+        });
+        panelBoton.add(btnPedirPrestado);
         
-        panelSuperior.add(btnPedirPrestado);
+        panelSuperior.add(panelBoton, BorderLayout.SOUTH);
         
         txtEstado = new JTextArea();
         txtEstado.setEditable(false);
+        txtEstado.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        txtEstado.setBackground(new Color(35, 45, 70));
+        txtEstado.setForeground(Color.WHITE);
+        txtEstado.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+        JScrollPane scrollEstado = new JScrollPane(txtEstado);
+        scrollEstado.setBorder(BorderFactory.createEmptyBorder());
+        scrollEstado.getViewport().setBackground(new Color(35, 45, 70));
+        scrollEstado.setPreferredSize(new Dimension(400, 200));
         
-        add(panelSuperior, BorderLayout.NORTH);
-        add(new JScrollPane(txtEstado), BorderLayout.CENTER);
+        panelPrincipal.add(panelSuperior, BorderLayout.NORTH);
+        panelPrincipal.add(scrollEstado, BorderLayout.CENTER);
+        
+        add(panelPrincipal, BorderLayout.CENTER);
     }
     
     public JButton getBtnPedirPrestado() {
@@ -51,13 +91,15 @@ public class PanelPedidos extends JPanel {
         dialog.setSize(500, 400);
         dialog.setLocationRelativeTo(this);
         dialog.setLayout(new BorderLayout());
+        dialog.getContentPane().setBackground(new Color(25, 35, 60));
         
         JPanel panelBotones = new JPanel(new GridLayout(3, 1, 10, 10));
         panelBotones.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panelBotones.setBackground(new Color(25, 35, 60));
         
-        JButton btnActivarPedido = new JButton("Activar Pedido");
-        JButton btnSolicitarProducto = new JButton("Solicitar Producto");
-        JButton btnCancelarSolicitud = new JButton("Cancelar Solicitud");
+        JButton btnActivarPedido = crearBotonDialogo("Activar Pedido", new Color(50, 200, 120));
+        JButton btnSolicitarProducto = crearBotonDialogo("Solicitar Producto", new Color(50, 200, 120));
+        JButton btnCancelarSolicitud = crearBotonDialogo("Cancelar Solicitud", new Color(220, 70, 70));
         
         panelBotones.add(btnActivarPedido);
         panelBotones.add(btnSolicitarProducto);
@@ -65,15 +107,36 @@ public class PanelPedidos extends JPanel {
         
         JTextArea txtDetallePedido = new JTextArea();
         txtDetallePedido.setEditable(false);
+        txtDetallePedido.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        txtDetallePedido.setBackground(new Color(35, 45, 70));
+        txtDetallePedido.setForeground(Color.WHITE);
+        txtDetallePedido.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+        JScrollPane scrollDetalle = new JScrollPane(txtDetallePedido);
+        scrollDetalle.setBorder(BorderFactory.createEmptyBorder());
+        scrollDetalle.getViewport().setBackground(new Color(35, 45, 70));
         
         JButton btnActualizar = new JButton("Actualizar");
         JButton btnCerrar = new JButton("Cerrar");
+        btnActualizar.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        btnCerrar.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        btnActualizar.setBackground(new Color(50, 200, 120));
+        btnActualizar.setForeground(Color.WHITE);
+        btnCerrar.setBackground(new Color(220, 70, 70));
+        btnCerrar.setForeground(Color.WHITE);
+        btnActualizar.setFocusPainted(false);
+        btnCerrar.setFocusPainted(false);
+        btnActualizar.setBorderPainted(false);
+        btnCerrar.setBorderPainted(false);
+        btnActualizar.setOpaque(true);
+        btnCerrar.setOpaque(true);
+        
         JPanel panelInferior = new JPanel(new FlowLayout());
+        panelInferior.setBackground(new Color(25, 35, 60));
         panelInferior.add(btnActualizar);
         panelInferior.add(btnCerrar);
         
         dialog.add(panelBotones, BorderLayout.WEST);
-        dialog.add(new JScrollPane(txtDetallePedido), BorderLayout.CENTER);
+        dialog.add(scrollDetalle, BorderLayout.CENTER);
         dialog.add(panelInferior, BorderLayout.SOUTH);
         
         Runnable actualizarTexto = () -> {
@@ -136,14 +199,39 @@ public class PanelPedidos extends JPanel {
         dialog.setVisible(true);
     }
     
+    private JButton crearBotonDialogo(String texto, Color color) {
+        JButton btn = new JButton(texto);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        btn.setBackground(color);
+        btn.setForeground(Color.WHITE);
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.setOpaque(true);
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn.setBackground(color.brighter());
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn.setBackground(color);
+            }
+        });
+        return btn;
+    }
+    
     private void mostrarDialogoSolicitarProducto(JDialog parent, Runnable actualizarTexto) {
         JDialog dialog = new JDialog(parent, "Solicitar Producto", true);
         dialog.setSize(450, 400);
         dialog.setLocationRelativeTo(parent);
         dialog.setLayout(new BorderLayout());
+        dialog.getContentPane().setBackground(new Color(25, 35, 60));
         
         DefaultListModel<String> listModel = new DefaultListModel<>();
         JList<String> listaProductos = new JList<>(listModel);
+        listaProductos.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+        listaProductos.setBackground(new Color(35, 45, 70));
+        listaProductos.setForeground(Color.WHITE);
+        listaProductos.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         
         listModel.addElement("--- PRODUCTOS DE CONSUMO (MENU) ---");
         
@@ -173,6 +261,13 @@ public class PanelPedidos extends JPanel {
         }
         
         JButton btnSolicitar = new JButton("Solicitar");
+        btnSolicitar.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        btnSolicitar.setBackground(new Color(50, 200, 120));
+        btnSolicitar.setForeground(Color.WHITE);
+        btnSolicitar.setFocusPainted(false);
+        btnSolicitar.setBorderPainted(false);
+        btnSolicitar.setOpaque(true);
+        
         btnSolicitar.addActionListener(e -> {
             String seleccion = listaProductos.getSelectedValue();
             if (seleccion == null) {
@@ -216,7 +311,11 @@ public class PanelPedidos extends JPanel {
             }
         });
         
-        dialog.add(new JScrollPane(listaProductos), BorderLayout.CENTER);
+        JScrollPane scrollLista = new JScrollPane(listaProductos);
+        scrollLista.setBorder(BorderFactory.createEmptyBorder());
+        scrollLista.getViewport().setBackground(new Color(35, 45, 70));
+        
+        dialog.add(scrollLista, BorderLayout.CENTER);
         dialog.add(btnSolicitar, BorderLayout.SOUTH);
         dialog.setVisible(true);
     }
@@ -226,9 +325,14 @@ public class PanelPedidos extends JPanel {
         dialog.setSize(400, 300);
         dialog.setLocationRelativeTo(parent);
         dialog.setLayout(new BorderLayout());
+        dialog.getContentPane().setBackground(new Color(25, 35, 60));
         
         DefaultListModel<String> listModel = new DefaultListModel<>();
         JList<String> listaSolicitudes = new JList<>(listModel);
+        listaSolicitudes.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+        listaSolicitudes.setBackground(new Color(35, 45, 70));
+        listaSolicitudes.setForeground(Color.WHITE);
+        listaSolicitudes.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         
         for (int i = 0; i < cliente.getSolicitudesPendientes().size(); i++) {
             Producto p = cliente.getSolicitudesPendientes().get(i);
@@ -236,6 +340,13 @@ public class PanelPedidos extends JPanel {
         }
         
         JButton btnCancelar = new JButton("Cancelar Solicitud");
+        btnCancelar.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        btnCancelar.setBackground(new Color(220, 70, 70));
+        btnCancelar.setForeground(Color.WHITE);
+        btnCancelar.setFocusPainted(false);
+        btnCancelar.setBorderPainted(false);
+        btnCancelar.setOpaque(true);
+        
         btnCancelar.addActionListener(e -> {
             String seleccion = listaSolicitudes.getSelectedValue();
             if (seleccion == null) {
@@ -260,7 +371,11 @@ public class PanelPedidos extends JPanel {
             }
         });
         
-        dialog.add(new JScrollPane(listaSolicitudes), BorderLayout.CENTER);
+        JScrollPane scrollLista = new JScrollPane(listaSolicitudes);
+        scrollLista.setBorder(BorderFactory.createEmptyBorder());
+        scrollLista.getViewport().setBackground(new Color(35, 45, 70));
+        
+        dialog.add(scrollLista, BorderLayout.CENTER);
         dialog.add(btnCancelar, BorderLayout.SOUTH);
         dialog.setVisible(true);
     }

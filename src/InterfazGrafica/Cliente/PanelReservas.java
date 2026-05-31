@@ -21,23 +21,21 @@ public class PanelReservas extends JPanel {
         this.cafeteria = cafeteria;
         setLayout(new BorderLayout(0, 5));
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        setBackground(new Color(25, 35, 60));
         initComponents();
     }
     
     private void initComponents() {
         JLabel titulo = new JLabel("Gestion de Reservas");
-        titulo.setFont(new Font("Dialog", Font.BOLD, 14));
+        titulo.setFont(new Font("Segoe UI", Font.BOLD, 14));
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
+        titulo.setForeground(Color.WHITE);
         
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 5));
-        btnCrear = new JButton("Crear Reserva");
-        btnCancelar = new JButton("Cancelar Reserva");
-        btnConsultar = new JButton("Consultar Reservas");
-        
-        Font btnFont = new Font("Dialog", Font.PLAIN, 11);
-        btnCrear.setFont(btnFont);
-        btnCancelar.setFont(btnFont);
-        btnConsultar.setFont(btnFont);
+        panelBotones.setBackground(new Color(25, 35, 60));
+        btnCrear = crearBoton("Crear Reserva", new Color(50, 200, 120));
+        btnCancelar = crearBoton("Cancelar Reserva", new Color(220, 70, 70));
+        btnConsultar = crearBoton("Consultar Reservas", new Color(80, 140, 255));
         
         panelBotones.add(btnCrear);
         panelBotones.add(btnCancelar);
@@ -45,19 +43,46 @@ public class PanelReservas extends JPanel {
         
         JPanel panelNorte = new JPanel();
         panelNorte.setLayout(new BoxLayout(panelNorte, BoxLayout.Y_AXIS));
+        panelNorte.setBackground(new Color(25, 35, 60));
         panelNorte.add(titulo);
         panelNorte.add(Box.createRigidArea(new Dimension(0, 5)));
         panelNorte.add(panelBotones);
         
         txtResultados = new JTextArea();
         txtResultados.setEditable(false);
-        txtResultados.setFont(new Font("Dialog", Font.PLAIN, 12));
+        txtResultados.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        txtResultados.setBackground(new Color(35, 45, 70));
+        txtResultados.setForeground(Color.WHITE);
+        txtResultados.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
         JScrollPane scrollResultados = new JScrollPane(txtResultados);
-        scrollResultados.setBorder(BorderFactory.createTitledBorder("Resultados"));
+        scrollResultados.setBorder(BorderFactory.createEmptyBorder());
+        scrollResultados.getViewport().setBackground(new Color(35, 45, 70));
         scrollResultados.setPreferredSize(new Dimension(400, 250));
         
         add(panelNorte, BorderLayout.NORTH);
         add(scrollResultados, BorderLayout.CENTER);
+    }
+    
+    private JButton crearBoton(String texto, Color color) {
+        JButton btn = new JButton(texto);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 11));
+        btn.setForeground(Color.WHITE);
+        btn.setBackground(color);
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.setOpaque(true);
+        btn.setPreferredSize(new Dimension(140, 32));
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn.setBackground(color.brighter());
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn.setBackground(color);
+            }
+        });
+        return btn;
     }
     
     public JButton getBtnCrear() { return btnCrear; }
@@ -76,42 +101,61 @@ public class PanelReservas extends JPanel {
         dialog.setSize(380, 320);
         dialog.setLayout(new GridBagLayout());
         dialog.setLocationRelativeTo(this);
+        dialog.getContentPane().setBackground(new Color(25, 35, 60));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(4, 8, 4, 8);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
+        JLabel lblPersonas = new JLabel("Personas:");
+        lblPersonas.setForeground(Color.WHITE);
+        lblPersonas.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         gbc.gridx = 0; gbc.gridy = 0;
-        dialog.add(new JLabel("Personas:"), gbc);
+        dialog.add(lblPersonas, gbc);
         gbc.gridx = 1;
         JSpinner spnPersonas = new JSpinner(new SpinnerNumberModel(1, 1, 20, 1));
         dialog.add(spnPersonas, gbc);
         
+        JLabel lblMenores = new JLabel("Menores edad:");
+        lblMenores.setForeground(Color.WHITE);
+        lblMenores.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         gbc.gridx = 0; gbc.gridy = 1;
-        dialog.add(new JLabel("Menores edad:"), gbc);
+        dialog.add(lblMenores, gbc);
         gbc.gridx = 1;
         JSpinner spnMenores = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
         dialog.add(spnMenores, gbc);
         
+        JLabel lblMenores5 = new JLabel("Menores 5 anos:");
+        lblMenores5.setForeground(Color.WHITE);
+        lblMenores5.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         gbc.gridx = 0; gbc.gridy = 2;
-        dialog.add(new JLabel("Menores 5 anos:"), gbc);
+        dialog.add(lblMenores5, gbc);
         gbc.gridx = 1;
         JSpinner spnMenores5 = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
         dialog.add(spnMenores5, gbc);
         
+        JLabel lblHora = new JLabel("Hora:");
+        lblHora.setForeground(Color.WHITE);
+        lblHora.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         gbc.gridx = 0; gbc.gridy = 3;
-        dialog.add(new JLabel("Hora:"), gbc);
+        dialog.add(lblHora, gbc);
         gbc.gridx = 1;
         JTextField txtHora = new JTextField("14:00");
         dialog.add(txtHora, gbc);
         
+        JLabel lblFecha = new JLabel("Fecha:");
+        lblFecha.setForeground(Color.WHITE);
+        lblFecha.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         gbc.gridx = 0; gbc.gridy = 4;
-        dialog.add(new JLabel("Fecha:"), gbc);
+        dialog.add(lblFecha, gbc);
         gbc.gridx = 1;
         JTextField txtFecha = new JTextField(java.time.LocalDate.now().toString());
         dialog.add(txtFecha, gbc);
         
+        JLabel lblMesa = new JLabel("Mesa:");
+        lblMesa.setForeground(Color.WHITE);
+        lblMesa.setFont(new Font("Segoe UI", Font.PLAIN, 12));
         gbc.gridx = 0; gbc.gridy = 5;
-        dialog.add(new JLabel("Mesa:"), gbc);
+        dialog.add(lblMesa, gbc);
         gbc.gridx = 1;
         JComboBox<Mesa> cmbMesa = new JComboBox<>();
         for (Mesa m : cafeteria.getMesas()) {
@@ -129,6 +173,12 @@ public class PanelReservas extends JPanel {
         gbc.gridwidth = 2;
         gbc.insets = new Insets(10, 8, 10, 8);
         JButton btnGuardar = new JButton("Guardar Reserva");
+        btnGuardar.setBackground(new Color(50, 200, 120));
+        btnGuardar.setForeground(Color.WHITE);
+        btnGuardar.setFocusPainted(false);
+        btnGuardar.setBorderPainted(false);
+        btnGuardar.setOpaque(true);
+        btnGuardar.setFont(new Font("Segoe UI", Font.BOLD, 11));
         dialog.add(btnGuardar, gbc);
         
         btnGuardar.addActionListener(e -> {

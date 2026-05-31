@@ -14,8 +14,9 @@ public class PanelBotones extends JPanel {
     
     public PanelBotones() {
         setLayout(new GridBagLayout());
-        setPreferredSize(new Dimension(100, 500));
+        setPreferredSize(new Dimension(120, 500));
         setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 5));
+        setBackground(new Color(25, 35, 60));
         initComponents();
     }
     
@@ -23,43 +24,14 @@ public class PanelBotones extends JPanel {
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(3, 0, 3, 0);
+        gbc.insets = new Insets(5, 0, 5, 0);
         
-        btnReservas = new JButton("Reservas");
-        btnPedidos = new JButton("Pedidos");
-        btnMiCuenta = new JButton("Mi Cuenta");
-        btnCompras = new JButton("Compras");
-        btnTorneos = new JButton("Torneos");
+        btnReservas = crearBoton("Reservas", new Color(255, 160, 50));
+        btnPedidos = crearBoton("Pedidos", new Color(50, 200, 120));
+        btnMiCuenta = crearBoton("Mi Cuenta", new Color(80, 140, 255));
+        btnCompras = crearBoton("Compras", new Color(255, 160, 50));
+        btnTorneos = crearBoton("Torneos", new Color(50, 200, 120));
         
-        Font smallFont = new Font("Dialog", Font.PLAIN, 11);
-        btnReservas.setFont(smallFont);
-        btnPedidos.setFont(smallFont);
-        btnMiCuenta.setFont(smallFont);
-        btnCompras.setFont(smallFont);
-        btnTorneos.setFont(smallFont);
-        
-        Dimension btnSize = new Dimension(85, 28);
-        btnReservas.setPreferredSize(btnSize);
-        btnReservas.setMaximumSize(btnSize);
-        btnReservas.setMinimumSize(btnSize);
-        
-        btnPedidos.setPreferredSize(btnSize);
-        btnPedidos.setMaximumSize(btnSize);
-        btnPedidos.setMinimumSize(btnSize);
-        
-        btnMiCuenta.setPreferredSize(btnSize);
-        btnMiCuenta.setMaximumSize(btnSize);
-        btnMiCuenta.setMinimumSize(btnSize);
-        
-        btnCompras.setPreferredSize(btnSize);
-        btnCompras.setMaximumSize(btnSize);
-        btnCompras.setMinimumSize(btnSize);
-        
-        btnTorneos.setPreferredSize(btnSize);
-        btnTorneos.setMaximumSize(btnSize);
-        btnTorneos.setMinimumSize(btnSize);
-        
-        // Centrar verticalmente
         gbc.gridy = 0;
         add(Box.createVerticalGlue(), gbc);
         
@@ -76,6 +48,28 @@ public class PanelBotones extends JPanel {
         
         gbc.gridy = 6;
         add(Box.createVerticalGlue(), gbc);
+    }
+    
+    private JButton crearBoton(String texto, Color color) {
+        JButton btn = new JButton(texto);
+        btn.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        btn.setForeground(Color.WHITE);
+        btn.setBackground(color);
+        btn.setFocusPainted(false);
+        btn.setBorderPainted(false);
+        btn.setOpaque(true);
+        btn.setPreferredSize(new Dimension(100, 35));
+        btn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        
+        btn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                btn.setBackground(color.brighter());
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                btn.setBackground(color);
+            }
+        });
+        return btn;
     }
     
     public void setListenerReservas(ActionListener listener) {
