@@ -1,0 +1,16 @@
+identificador,nombreProducto,precio,descripcion,alcoholica,caliente,tipoProducto,stock,cantidadDisponible,alergenos
+100,Catan,50000.0,Construye colonias,false,false,JUEGOMESAPRESTAMO,3,3,
+101,Ajedrez,30000.0,Juego de estrategia,false,false,JUEGOMESAPRESTAMO,5,5,
+102,Dixit,45000.0,Juego de imaginacion,false,false,JUEGOMESAPRESTAMO,4,4,
+103,Jenga,25000.0,Torre de bloques,false,false,JUEGOMESAPRESTAMO,3,3,
+104,Ticket to Ride,65000.0,Construye rutas,false,false,JUEGOMESAPRESTAMO,2,2,
+105,Monopoly,60000.0,Compra propiedades,false,false,JUEGOMESAVENTA,2,2,
+106,Risk,55000.0,Conquista mundial,false,false,JUEGOMESAVENTA,3,3,
+1,Cafe Americano,3000.0,Cafe negro,false,true,BEBIDA,1,0,
+2,Capuchino,4000.0,Cafe con leche,false,true,BEBIDA,1,0,
+3,Te Verde,5000.0,Te relajante,false,true,BEBIDA,1,0,
+4,Jugo Natural,6000.0,Jugo de frutas,false,false,BEBIDA,1,0,
+5,Cerveza,8000.0,Cerveza artesanal,true,false,BEBIDA,1,0,
+6,Croissant,5000.0,Hojaldre de mantequilla,false,false,PASTELERIA,1,0,gluten
+7,Torta Chocolate,7000.0,Torta humeda,false,false,PASTELERIA,1,0,lacteos
+8,Galletas,6000.0,Galletas de avena,false,false,PASTELERIA,1,0,gluten

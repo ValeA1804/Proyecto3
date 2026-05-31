@@ -1,0 +1,8 @@
+idProducto,nombre,anioPublicacion,empresaMatriz,numeroJugadores,categoria,estado,restriccionEdad,dificil
+100,Catan,0,null,4,ESTRATEGIA,Bueno,10,false
+101,Ajedrez,0,null,2,ESTRATEGIA,Excelente,6,false
+102,Dixit,0,null,6,CARTAS,Bueno,8,false
+103,Jenga,0,null,8,ACCION,Regular,5,false
+104,Ticket to Ride,0,null,5,TABLERO,Excelente,8,false
+105,Monopoly,0,null,6,TABLERO,Nuevo,8,false
+106,Risk,0,null,6,ESTRATEGIA,Nuevo,10,false

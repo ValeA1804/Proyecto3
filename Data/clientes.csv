@@ -1,0 +1,4 @@
+id,email,cedula,apellido,puntosFidelidad,puntosGenerados,pedidoActivo
+1,cliente@mail.com,12345678,Prueba,0,0,false
+1000,PruebaCliente@gmail.com,35784589,A,0,0,false
+1001,val@gmail.com,65678678,val,0,0,false

@@ -1,0 +1,195 @@
+package InterfazGrafica.Cliente;
+
+
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import Proyecto.Cliente;
+import Proyecto.Compra;
+import Proyecto.Cafeteria;
+import Proyecto.Producto;
+import Proyecto.Torneo;
+import Proyecto.InventarioJuegoVenta;
+import Proyecto.InventarioJuegoPrestamo;
+
+public class InterfazCliente extends JFrame {
+    
+	private Cliente cliente;
+    private PanelSuperior panelSuperior;
+    private PanelIzquierdoMenu panelIzquierdo;
+    private PanelBotones panelBotones;
+    private AllPaneles panelCentral;
+    private InventarioJuegoVenta inventarioVenta;
+    private InventarioJuegoPrestamo inventarioPrestamo;
+    private ArrayList<Torneo> torneos;
+
+    
+    public InterfazCliente(Cliente cliente, ArrayList<Producto> productos,
+            Cafeteria cafeteria,
+            InventarioJuegoVenta inventarioVenta,
+            InventarioJuegoPrestamo inventarioPrestamo,
+            ArrayList<Torneo> torneos) {  
+
+			this.cliente = cliente;
+			this.inventarioVenta = inventarioVenta;
+			this.inventarioPrestamo = inventarioPrestamo;
+			this.torneos = torneos;
+			        
+        setTitle("Board Game Cafe - Cliente: " + cliente.getNombre());
+        setSize(950, 600);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
+        
+        setLayout(new BorderLayout());
+        
+        panelSuperior = new PanelSuperior(cliente);
+        panelIzquierdo = new PanelIzquierdoMenu(productos);
+        panelBotones = new PanelBotones();        
+        panelIzquierdo.actualizarJuegos(inventarioPrestamo.getProductos());
+        panelCentral = new AllPaneles(cliente, cafeteria, inventarioVenta, inventarioPrestamo, torneos);
+        
+        configurarListeners();
+        
+        add(panelSuperior, BorderLayout.NORTH);
+        add(panelIzquierdo, BorderLayout.WEST);
+        add(panelBotones, BorderLayout.EAST);
+        add(panelCentral, BorderLayout.CENTER);
+    }
+    
+    private void configurarListeners() {
+        panelBotones.setListenerReservas(e -> panelCentral.mostrarPanel("RESERVAS"));
+        panelBotones.setListenerPedidos(e -> panelCentral.mostrarPanel("PEDIDOS"));
+        panelBotones.setListenerMiCuenta(e -> panelCentral.mostrarPanel("MI_CUENTA"));
+        panelBotones.setListenerCompras(e -> panelCentral.mostrarPanel("COMPRAS"));
+        panelBotones.setListenerTorneos(e -> panelCentral.mostrarPanel("TORNEOS"));
+        
+        panelCentral.getPanelReservas().getBtnCrear().addActionListener(e -> 
+            panelCentral.getPanelReservas().mostrarDialogoCrearReserva()
+        );
+        
+        panelCentral.getPanelReservas().getBtnCancelar().addActionListener(e -> {
+            panelCentral.getPanelReservas().mostrarResultados("Reserva cancelada");
+        });
+        
+        panelCentral.getPanelReservas().getBtnConsultar().addActionListener(e -> {
+            StringBuilder sb = new StringBuilder();
+            for (Proyecto.Reserva r : cliente.getReservas()) {
+                sb.append("ID: ").append(r.getId())
+                  .append(" - Fecha: ").append(r.getFecha())
+                  .append(" - Activa: ").append(r.isActiva()).append("\n");
+            }
+            panelCentral.getPanelReservas().mostrarResultados(sb.toString());
+        });
+        
+        panelCentral.getPanelPedidos().getBtnCrearPedido().addActionListener(e -> {
+            if (cliente.getMiReserva() != null && cliente.getMiReserva().isActiva()) {
+                cliente.setPedidoActivo(true);
+                panelCentral.getPanelPedidos().mostrarEstado("Pedido creado exitosamente");
+            } else {
+                panelCentral.getPanelPedidos().mostrarEstado("Error: Debes tener una reserva activa");
+            }
+        });
+        
+        panelCentral.getPanelPedidos().getBtnCancelarPedido().addActionListener(e -> {
+            cliente.setPedidoActivo(false);
+            panelCentral.getPanelPedidos().mostrarEstado("Pedido cancelado");
+        });
+        
+        panelCentral.getPanelPedidos().getBtnPedirPrestado().addActionListener(e -> 
+            panelCentral.getPanelPedidos().mostrarDialogoPedirJuego()
+        );
+        
+        panelCentral.getPanelCompras().getBtnComprar().addActionListener(e -> {
+            String nombreJuego = panelCentral.getPanelCompras().getJuegoSeleccionado();
+            if (nombreJuego != null) {
+                Producto juegoAComprar = null;
+                ArrayList<Producto> juegos = inventarioVenta.getJuegosVenta();
+                
+                // Buscar el juego SIN usar break
+                for (int i = 0; i < juegos.size(); i++) {
+                    if (juegos.get(i).getNombreProducto().equals(nombreJuego)) {
+                        juegoAComprar = juegos.get(i);
+                        break;
+                    }
+                }
+                
+                if (juegoAComprar != null) {
+                    // Crear ArrayList con el producto a comprar
+                    ArrayList<Producto> productosCompra = new ArrayList<>();
+                    productosCompra.add(juegoAComprar);
+                    
+                    // Realizar la compra (sin descuento, sin propina)
+                    Compra compra = cliente.realizarCompra(productosCompra, cliente, 0, null);
+                    
+                    if (compra != null && compra.getEstado().equals("COMPLETADA")) {
+                        // Eliminar del inventario de venta
+                        inventarioVenta.getJuegosVenta().remove(juegoAComprar);
+                        panelCentral.getPanelCompras().eliminarJuegoDeLista(nombreJuego);
+                        panelCentral.getPanelCompras().mostrarResultado(
+                            "Compra exitosa!\n" +
+                            "Producto: " + juegoAComprar.getNombreProducto() + "\n" +
+                            "Precio: $" + juegoAComprar.getPrecio() + "\n" +
+                            "Total pagado: $" + compra.getTotal() + "\n" +
+                            "Puntos acumulados: " + compra.getPuntosFidelidad()
+                        );
+                        // Actualizar panel de mi cuenta si está visible
+                        if (panelCentral.getPanelMiCuenta() != null) {
+                            panelCentral.getPanelMiCuenta().actualizarDatos();
+                        }
+                    } else {
+                        panelCentral.getPanelCompras().mostrarResultado("Error: No se pudo completar la compra");
+                    }
+                } else {
+                    panelCentral.getPanelCompras().mostrarResultado("Error: Juego no encontrado");
+                }
+            } else {
+                panelCentral.getPanelCompras().mostrarResultado("Seleccione un juego primero");
+            }
+        });
+        
+     // Inscribirse - llama directamente a torneo.inscribirParticipante
+        panelCentral.getPanelTorneos().getBtnInscribir().addActionListener(e -> {
+            Torneo torneo = panelCentral.getPanelTorneos().getTorneoSeleccionado();
+            if (torneo != null) {
+                try {
+                    ArrayList<Integer> ids = new ArrayList<>();
+                    ids.add(cliente.getId());
+                    torneo.inscribirParticipante(cliente, ids);
+                    cliente.inscribirEnTorneo(torneo);
+                    panelCentral.getPanelTorneos().mostrarInfo("Inscrito a: " + torneo.getNombre());
+                } catch (Exception ex) {
+                    panelCentral.getPanelTorneos().mostrarInfo("Error: " + ex.getMessage());
+                }
+            } else {
+                panelCentral.getPanelTorneos().mostrarInfo("Seleccione un torneo");
+            }
+        });
+
+        // Cancelar - llama directamente a torneo.eliminarInscripcion
+        panelCentral.getPanelTorneos().getBtnCancelar().addActionListener(e -> {
+            Torneo torneo = panelCentral.getPanelTorneos().getTorneoSeleccionado();
+            if (torneo != null) {
+                torneo.eliminarInscripcion(cliente);
+                cliente.cancelarInscripcionTorneo(torneo);
+                panelCentral.getPanelTorneos().mostrarInfo("Cancelada inscripcion a: " + torneo.getNombre());
+            } else {
+                panelCentral.getPanelTorneos().mostrarInfo("Seleccione un torneo");
+            }
+        });
+
+        // Consultar mis torneos
+        panelCentral.getPanelTorneos().getBtnConsultar().addActionListener(e -> {
+            ArrayList<Torneo> misTorneos = cliente.getTorneosInscritos();
+            if (misTorneos.isEmpty()) {
+                panelCentral.getPanelTorneos().mostrarInfo("No estas inscrito en ningun torneo");
+            } else {
+                StringBuilder sb = new StringBuilder();
+                sb.append("Mis Torneos:\n");
+                for (Torneo t : misTorneos) {
+                    sb.append("- ").append(t.getNombre()).append("\n");
+                }
+                panelCentral.getPanelTorneos().mostrarInfo(sb.toString());
+            }
+        });
+        
+    }}

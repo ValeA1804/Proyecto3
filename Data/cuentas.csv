@@ -1,0 +1,7 @@
+id,nombre,usuario,contraseña,rol
+999,Administrador,admin,admin123,ADMINISTRADOR
+1,Cliente Prueba,cliente,123,CLIENTE
+2,Mesero Prueba,mesero,123,EMPLEADO
+3,Cocinero Prueba,cocinero,123,EMPLEADO
+1000,PruebaCliente,TesterCliente,TesterCliente,CLIENTE
+1001,val,val,val,CLIENTE
