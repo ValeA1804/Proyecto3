@@ -30,10 +30,9 @@ public class PanelTorneos extends JPanel {
         titulo.setFont(new Font("Dialog", Font.BOLD, 14));
         titulo.setHorizontalAlignment(SwingConstants.CENTER);
         
-        // Panel superior con botones ARRIBA
         JPanel panelBotones = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 5));
         btnInscribir = new JButton("Inscribirse");
-        btnCancelar = new JButton("Cancelar");
+        btnCancelar = new JButton("Cancelar Inscripcion");
         btnConsultar = new JButton("Mis Torneos");
         
         Font btnFont = new Font("Dialog", Font.PLAIN, 11);
@@ -45,24 +44,20 @@ public class PanelTorneos extends JPanel {
         panelBotones.add(btnCancelar);
         panelBotones.add(btnConsultar);
         
-        // Selector de torneo DEBAJO de los botones
         cmbTorneos = new JComboBox<>();
         cmbTorneos.setFont(new Font("Dialog", Font.PLAIN, 11));
-        cmbTorneos.setMaximumSize(new Dimension(400, 25));
         
         JPanel panelSelector = new JPanel(new FlowLayout(FlowLayout.CENTER));
         panelSelector.add(cmbTorneos);
         
-        // Panel norte con todo (titulo + botones + selector)
         JPanel panelNorte = new JPanel();
         panelNorte.setLayout(new BoxLayout(panelNorte, BoxLayout.Y_AXIS));
         panelNorte.add(titulo);
         panelNorte.add(Box.createRigidArea(new Dimension(0, 5)));
-        panelNorte.add(panelBotones);
-        panelNorte.add(Box.createRigidArea(new Dimension(0, 5)));
         panelNorte.add(panelSelector);
+        panelNorte.add(Box.createRigidArea(new Dimension(0, 5)));
+        panelNorte.add(panelBotones);
         
-        // Area de informacion - mas grande y mas cerca
         txtInfo = new JTextArea();
         txtInfo.setEditable(false);
         txtInfo.setFont(new Font("Dialog", Font.PLAIN, 12));
@@ -80,7 +75,8 @@ public class PanelTorneos extends JPanel {
             btnInscribir.setEnabled(false);
             btnCancelar.setEnabled(false);
         } else {
-            for (Torneo t : torneosDisponibles) {
+            for (int i = 0; i < torneosDisponibles.size(); i++) {
+                Torneo t = torneosDisponibles.get(i);
                 cmbTorneos.addItem(t.getNombre() + " - " + t.getFecha());
             }
             btnInscribir.setEnabled(true);

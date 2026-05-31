@@ -7,6 +7,8 @@ import Proyecto.Cafeteria;
 import Proyecto.Mesa;
 import Proyecto.Producto;
 import Proyecto.Torneo;
+import Proyecto.TorneoCompetitivo;
+import Proyecto.TorneoAmistoso;
 import Proyecto.InventarioJuegoVenta;
 import Proyecto.InventarioJuegoPrestamo;
 import Proyecto.PersistenciaManager;
@@ -19,9 +21,22 @@ public class PruebaInterfaz {
         // CARGAR DATOS REALES DESDE CSV
         ArrayList<Proyecto.CuentaUsuario> cuentas = PersistenciaManager.cargarCuentas();
         ArrayList<Producto> productos = PersistenciaManager.cargarProductos();
-        ArrayList<Torneo> torneos = new ArrayList<>();
         
-        // Buscar un cliente de las cuentas cargadas SIN usar break
+        // CREAR TORNEOS DE PRUEBA (NO VACIOS)
+        ArrayList<Torneo> torneos = new ArrayList<>();
+        TorneoCompetitivo t1 = new TorneoCompetitivo("Competitivo - Catan", "2024-12-15", null, 16, 5000, "Trofeo de Campeon + $200000");
+        TorneoAmistoso t2 = new TorneoAmistoso("Amistoso - D&D", "2024-12-20", null, 8, 15);
+        TorneoCompetitivo t3 = new TorneoCompetitivo("Competitivo - Ajedrez", "2024-12-25", null, 16, 3000, "Medalla de Oro + $100000");
+        TorneoAmistoso t4 = new TorneoAmistoso("Amistoso - Uno", "2024-12-28", null, 20, 10);
+        
+        torneos.add(t1);
+        torneos.add(t2);
+        torneos.add(t3);
+        torneos.add(t4);
+        
+        System.out.println("Torneos cargados: " + torneos.size());
+        
+        // Buscar un cliente de las cuentas cargadas
         Cliente clienteEncontrado = null;
         int indice = 0;
         while (indice < cuentas.size() && clienteEncontrado == null) {

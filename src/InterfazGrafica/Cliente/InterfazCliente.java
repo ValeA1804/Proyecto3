@@ -18,7 +18,7 @@ public class InterfazCliente extends JFrame {
     private PanelSuperior panelSuperior;
     private PanelIzquierdoMenu panelIzquierdo;
     private PanelBotones panelBotones;
-    private AllPaneles panelCentral;
+    private VentanaCliente panelCentral;
     private InventarioJuegoVenta inventarioVenta;
     private InventarioJuegoPrestamo inventarioPrestamo;
     private ArrayList<Torneo> torneos;
@@ -46,7 +46,7 @@ public class InterfazCliente extends JFrame {
         panelIzquierdo = new PanelIzquierdoMenu(productos);
         panelBotones = new PanelBotones();        
         panelIzquierdo.actualizarJuegos(inventarioPrestamo.getProductos());
-        panelCentral = new AllPaneles(cliente, cafeteria, inventarioVenta, inventarioPrestamo, torneos);
+        panelCentral = new VentanaCliente(cliente, cafeteria, inventarioVenta, inventarioPrestamo, torneos);
         
         configurarListeners();
         
@@ -105,7 +105,6 @@ public class InterfazCliente extends JFrame {
                 Producto juegoAComprar = null;
                 ArrayList<Producto> juegos = inventarioVenta.getJuegosVenta();
                 
-                // Buscar el juego SIN usar break
                 for (int i = 0; i < juegos.size(); i++) {
                     if (juegos.get(i).getNombreProducto().equals(nombreJuego)) {
                         juegoAComprar = juegos.get(i);
@@ -147,7 +146,7 @@ public class InterfazCliente extends JFrame {
             }
         });
         
-     // Inscribirse - llama directamente a torneo.inscribirParticipante
+     // Inscribirse - usa el torneo seleccionado del comboBox
         panelCentral.getPanelTorneos().getBtnInscribir().addActionListener(e -> {
             Torneo torneo = panelCentral.getPanelTorneos().getTorneoSeleccionado();
             if (torneo != null) {
@@ -165,13 +164,17 @@ public class InterfazCliente extends JFrame {
             }
         });
 
-        // Cancelar - llama directamente a torneo.eliminarInscripcion
+        // Cancelar - usa el MISMO torneo seleccionado del comboBox
         panelCentral.getPanelTorneos().getBtnCancelar().addActionListener(e -> {
             Torneo torneo = panelCentral.getPanelTorneos().getTorneoSeleccionado();
             if (torneo != null) {
-                torneo.eliminarInscripcion(cliente);
-                cliente.cancelarInscripcionTorneo(torneo);
-                panelCentral.getPanelTorneos().mostrarInfo("Cancelada inscripcion a: " + torneo.getNombre());
+                if (cliente.estaInscritoEnTorneo(torneo)) {
+                    torneo.eliminarInscripcion(cliente);
+                    cliente.cancelarInscripcionTorneo(torneo);
+                    panelCentral.getPanelTorneos().mostrarInfo("Cancelada inscripcion a: " + torneo.getNombre());
+                } else {
+                    panelCentral.getPanelTorneos().mostrarInfo("No estas inscrito en este torneo");
+                }
             } else {
                 panelCentral.getPanelTorneos().mostrarInfo("Seleccione un torneo");
             }
@@ -184,9 +187,12 @@ public class InterfazCliente extends JFrame {
                 panelCentral.getPanelTorneos().mostrarInfo("No estas inscrito en ningun torneo");
             } else {
                 StringBuilder sb = new StringBuilder();
-                sb.append("Mis Torneos:\n");
-                for (Torneo t : misTorneos) {
-                    sb.append("- ").append(t.getNombre()).append("\n");
+                sb.append("Torneos inscritos:\n\n");
+                for (int i = 0; i < misTorneos.size(); i++) {
+                    Torneo t = misTorneos.get(i);
+                    sb.append((i+1) + ". " + t.getNombre() + "\n");
+                    sb.append("   Fecha: " + t.getFecha() + "\n");
+                    sb.append("   Premio: " + t.getPremio() + "\n\n");
                 }
                 panelCentral.getPanelTorneos().mostrarInfo(sb.toString());
             }

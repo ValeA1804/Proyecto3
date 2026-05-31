@@ -49,7 +49,6 @@ public class PanelReservas extends JPanel {
         panelNorte.add(Box.createRigidArea(new Dimension(0, 5)));
         panelNorte.add(panelBotones);
         
-        // Area de resultados - MAS GRANDE (quita el border y usa prefered size mayor)
         txtResultados = new JTextArea();
         txtResultados.setEditable(false);
         txtResultados.setFont(new Font("Dialog", Font.PLAIN, 12));

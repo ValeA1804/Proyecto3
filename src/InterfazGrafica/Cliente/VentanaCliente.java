@@ -11,7 +11,7 @@ import Proyecto.InventarioJuegoVenta;
 import Proyecto.InventarioJuegoPrestamo;
 import Proyecto.Torneo;
 
-public class AllPaneles extends JPanel {
+public class VentanaCliente extends JPanel {
     
 	private CardLayout cardLayout;
     private PanelReservas panelReservas;
@@ -20,7 +20,7 @@ public class AllPaneles extends JPanel {
     private PanelCompras panelCompras;
     private PanelTorneos panelTorneos;
     
-    public AllPaneles(Cliente cliente, Cafeteria cafeteria, 
+    public VentanaCliente(Cliente cliente, Cafeteria cafeteria, 
             InventarioJuegoVenta inventarioVenta,
             InventarioJuegoPrestamo inventarioPrestamo,
             ArrayList<Torneo> torneos) {
