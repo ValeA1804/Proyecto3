@@ -36,7 +36,6 @@ public class PruebaInterfaz {
         
         System.out.println("Torneos cargados: " + torneos.size());
         
-        // Buscar un cliente de las cuentas cargadas
         Cliente clienteEncontrado = null;
         int indice = 0;
         while (indice < cuentas.size() && clienteEncontrado == null) {
@@ -47,7 +46,6 @@ public class PruebaInterfaz {
             indice++;
         }
         
-        // Si no hay cliente, crear uno de prueba
         Cliente cliente;
         if (clienteEncontrado != null) {
             cliente = clienteEncontrado;
