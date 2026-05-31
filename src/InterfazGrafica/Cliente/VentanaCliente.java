@@ -29,7 +29,7 @@ public class VentanaCliente extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
         panelReservas = new PanelReservas(cliente, cafeteria);
-        panelPedidos = new PanelPedidos(cliente, inventarioPrestamo);
+        panelPedidos = new PanelPedidos(cliente, inventarioPrestamo, cafeteria);
         panelMiCuenta = new PanelMiCuenta(cliente);
         panelCompras = new PanelCompras(cliente, inventarioVenta);
         panelTorneos = new PanelTorneos(cliente, torneos);
@@ -63,5 +63,8 @@ public class VentanaCliente extends JPanel {
     
     public PanelTorneos getPanelTorneos() {
         return panelTorneos;
+    }
+    public JButton getBtnCerrarSesion() {
+        return panelMiCuenta.getBtnCerrarSesion();
     }
 }

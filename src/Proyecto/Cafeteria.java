@@ -117,6 +117,10 @@ public class Cafeteria {
 	    }
 	}
 	
+	public ArrayList<Producto> getProductos() {
+	    return this.menu.getProductos();
+	}
+	
 	@SuppressWarnings("unused")
 	private int calcularPersonasEnMesas() {
 	    int total = 0;

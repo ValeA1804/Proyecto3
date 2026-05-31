@@ -1,6 +1,5 @@
 package InterfazGrafica.Cliente;
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -81,22 +80,9 @@ public class InterfazCliente extends JFrame {
             panelCentral.getPanelReservas().mostrarResultados(sb.toString());
         });
         
-        panelCentral.getPanelPedidos().getBtnCrearPedido().addActionListener(e -> {
-            if (cliente.getMiReserva() != null && cliente.getMiReserva().isActiva()) {
-                cliente.setPedidoActivo(true);
-                panelCentral.getPanelPedidos().mostrarEstado("Pedido creado exitosamente");
-            } else {
-                panelCentral.getPanelPedidos().mostrarEstado("Error: Debes tener una reserva activa");
-            }
-        });
-        
-        panelCentral.getPanelPedidos().getBtnCancelarPedido().addActionListener(e -> {
-            cliente.setPedidoActivo(false);
-            panelCentral.getPanelPedidos().mostrarEstado("Pedido cancelado");
-        });
-        
+        // CODIGO CORREGIDO PARA PEDIDOS
         panelCentral.getPanelPedidos().getBtnPedirPrestado().addActionListener(e -> 
-            panelCentral.getPanelPedidos().mostrarDialogoPedirJuego()
+            panelCentral.getPanelPedidos().mostrarDialogoPedido()
         );
         
         panelCentral.getPanelCompras().getBtnComprar().addActionListener(e -> {
@@ -113,15 +99,12 @@ public class InterfazCliente extends JFrame {
                 }
                 
                 if (juegoAComprar != null) {
-                    // Crear ArrayList con el producto a comprar
                     ArrayList<Producto> productosCompra = new ArrayList<>();
                     productosCompra.add(juegoAComprar);
                     
-                    // Realizar la compra (sin descuento, sin propina)
                     Compra compra = cliente.realizarCompra(productosCompra, cliente, 0, null);
                     
                     if (compra != null && compra.getEstado().equals("COMPLETADA")) {
-                        // Eliminar del inventario de venta
                         inventarioVenta.getJuegosVenta().remove(juegoAComprar);
                         panelCentral.getPanelCompras().eliminarJuegoDeLista(nombreJuego);
                         panelCentral.getPanelCompras().mostrarResultado(
@@ -131,7 +114,6 @@ public class InterfazCliente extends JFrame {
                             "Total pagado: $" + compra.getTotal() + "\n" +
                             "Puntos acumulados: " + compra.getPuntosFidelidad()
                         );
-                        // Actualizar panel de mi cuenta si está visible
                         if (panelCentral.getPanelMiCuenta() != null) {
                             panelCentral.getPanelMiCuenta().actualizarDatos();
                         }
@@ -146,7 +128,6 @@ public class InterfazCliente extends JFrame {
             }
         });
         
-     // Inscribirse - usa el torneo seleccionado del comboBox
         panelCentral.getPanelTorneos().getBtnInscribir().addActionListener(e -> {
             Torneo torneo = panelCentral.getPanelTorneos().getTorneoSeleccionado();
             if (torneo != null) {
@@ -164,7 +145,6 @@ public class InterfazCliente extends JFrame {
             }
         });
 
-        // Cancelar - usa el MISMO torneo seleccionado del comboBox
         panelCentral.getPanelTorneos().getBtnCancelar().addActionListener(e -> {
             Torneo torneo = panelCentral.getPanelTorneos().getTorneoSeleccionado();
             if (torneo != null) {
@@ -180,7 +160,6 @@ public class InterfazCliente extends JFrame {
             }
         });
 
-        // Consultar mis torneos
         panelCentral.getPanelTorneos().getBtnConsultar().addActionListener(e -> {
             ArrayList<Torneo> misTorneos = cliente.getTorneosInscritos();
             if (misTorneos.isEmpty()) {
@@ -198,4 +177,16 @@ public class InterfazCliente extends JFrame {
             }
         });
         
-    }}
+        
+        panelCentral.getBtnCerrarSesion().addActionListener(e -> {
+            int confirm = JOptionPane.showConfirmDialog(this, 
+                "Desea cerrar sesion?", 
+                "Cerrar Sesion", 
+                JOptionPane.YES_NO_OPTION);
+            if (confirm == JOptionPane.YES_OPTION) {
+                this.dispose();
+            }
+        });
+    }
+    
+}

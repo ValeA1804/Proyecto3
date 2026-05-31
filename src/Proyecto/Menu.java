@@ -28,7 +28,9 @@ public class Menu {
 	public void setInventarioJuegos(InventarioJuegoPrestamo inventarioJuegos) {
 		this.inventarioJuegos = inventarioJuegos;
 	}
-	
+	public ArrayList<Producto> getProductos() {
+	    return this.menuProductos;
+	}
 	
 	public void agregarProductoAlMenu(String nombre, String descripcion, double precio, 
 	        TipoPlatillo tipoPlatillo, boolean alcoholica, boolean caliente, ArrayList<String> alergenos, 
